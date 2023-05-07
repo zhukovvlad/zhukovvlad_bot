@@ -1,34 +1,52 @@
 const { Telegraf } = require("telegraf");
-const bot = new Telegraf(process.env.BOT_TOKEN);
 
-bot.start((ctx) => {
-  console.log("Received /start command");
-  try {
-    return ctx.reply("Hi");
-  } catch (e) {
-    console.error("error in start action:", e);
-    return ctx.reply("Error occured");
-  }
-});
-bot.help((ctx) => {
-  console.log("Received /help command");
-  try {
-    return ctx.reply("Send me a sticker");
-  } catch (e) {
-    console.error("error in help action:", e);
-    return ctx.reply("Error occured");
-  }
-});
+const Extra = require('telegraf/extra')
+const Markup = require('telegraf/markup')
 
-bot.on("sticker", (ctx) => {
-  console.log("Received sticker");
-  try {
-    return ctx.reply("👍");
-  } catch (e) {
-    console.error("error in send sticker action:", e);
-    return ctx.reply("Error occured");
-  }
-});
+const gameShortName = 'your-game'
+const gameUrl = 'https://univerlib.com'
+
+const markup = Extra.markup(
+  Markup.inlineKeyboard([
+    Markup.gameButton('🎮 Play now!'),
+    Markup.urlButton('Telegraf help', 'http://telegraf.js.org')
+  ])
+)
+
+const bot = new Telegraf(process.env.BOT_TOKEN)
+bot.start(({ replyWithGame }) => replyWithGame(gameShortName))
+bot.command('foo', ({ replyWithGame }) => replyWithGame(gameShortName, markup))
+bot.gameQuery(({ answerGameQuery }) => answerGameQuery(gameUrl))
+bot.launch()
+
+// bot.start((ctx) => {
+//   console.log("Received /start command");
+//   try {
+//     return ctx.reply("Hi");
+//   } catch (e) {
+//     console.error("error in start action:", e);
+//     return ctx.reply("Error occured");
+//   }
+// });
+// bot.help((ctx) => {
+//   console.log("Received /help command");
+//   try {
+//     return ctx.reply("Send me a sticker");
+//   } catch (e) {
+//     console.error("error in help action:", e);
+//     return ctx.reply("Error occured");
+//   }
+// });
+
+// bot.on("sticker", (ctx) => {
+//   console.log("Received sticker");
+//   try {
+//     return ctx.reply("👍");
+//   } catch (e) {
+//     console.error("error in send sticker action:", e);
+//     return ctx.reply("Error occured");
+//   }
+// });
 
 // AWS event handler syntax (https://docs.aws.amazon.com/lambda/latest/dg/nodejs-handler.html)
 exports.handler = async (event) => {
