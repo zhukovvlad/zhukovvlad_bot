@@ -11,15 +11,24 @@ bot.start((ctx) => {
   }
 });
 bot.help((ctx) => {
-	console.log("Received /help command");
-	try {
-	  return ctx.reply("Send me a sticker");
-	} catch (e) {
-	  console.error("error in help action:", e);
-	  return ctx.reply("Error occured");
-	}
-  });
+  console.log("Received /help command");
+  try {
+    return ctx.reply("Send me a sticker");
+  } catch (e) {
+    console.error("error in help action:", e);
+    return ctx.reply("Error occured");
+  }
+});
 
+bot.on("sticker", (ctx) => {
+  console.log("Received sticker");
+  try {
+    return ctx.reply("👍");
+  } catch (e) {
+    console.error("error in send sticker action:", e);
+    return ctx.reply("Error occured");
+  }
+});
 
 // AWS event handler syntax (https://docs.aws.amazon.com/lambda/latest/dg/nodejs-handler.html)
 exports.handler = async (event) => {
