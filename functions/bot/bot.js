@@ -17,7 +17,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN)
 bot.start(({ replyWithGame }) => replyWithGame(gameShortName))
 bot.command('foo', ({ replyWithGame }) => replyWithGame(gameShortName, markup))
 bot.gameQuery(({ answerGameQuery }) => answerGameQuery(gameUrl))
-bot.launch()
+// bot.launch()
 
 // bot.start((ctx) => {
 //   console.log("Received /start command");
